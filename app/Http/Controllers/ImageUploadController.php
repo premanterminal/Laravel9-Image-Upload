@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Photo;
 
 class ImageUploadController extends Controller
 {
@@ -30,6 +31,18 @@ class ImageUploadController extends Controller
         $imageName = time().'.'.$request->image->extension();
 
         $request->image->move(public_path('images'), $imageName);
+
+        // $path = $request->image->move(public_path('images'), $imageName);
+        // $path = $request->file('image')->store('public/images');
+        $path = 'public/images/'.$imageName;
+
+        //save record data to db;
+        $save = new Photo;
+
+        $save->name = $imageName;
+        $save->path = $path;
+
+        $save->save();
 
         /*
             Write Code Here for
